@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,30 +26,41 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CalculatorFragment extends Fragment  {
-    private TextView textView;
+public class CalculatorFragment extends Fragment {
+    TextView textView;
     Double firstArg;
     Double secondArg;
     Double result;
     String operation;
     String results;
     Button first, two, three, four, five, six, seven, eight, nine, zero, plus, minus, divide, multiply, equal, dot, clear;
-    SendResultListener sendResultListener;
-    Button buttonHistory;
-    private ArrayList<String> list = new ArrayList<>();
-    private String resultToArray;
-    private Bundle bundle = new Bundle();
+    OnCLickFragment listener;
+    ArrayList<String> list=new ArrayList<>();
+    String resultToArray;
+
+
 
     public CalculatorFragment() {
         // Required empty public constructor
+    }
+
+    public static CalculatorFragment create(OnCLickFragment listener) {
+        CalculatorFragment fragment = new CalculatorFragment();
+        fragment.listener = listener;
+        return fragment;
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calculator, container, false);
+        return inflater.inflate(R.layout.fragment_calculator, container, false);
         // Inflate the layout for this fragment
+        }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         textView = view.findViewById(R.id.textView);
         first = view.findViewById(R.id.one);
         first.setOnClickListener(new View.OnClickListener() {
@@ -165,36 +177,39 @@ public class CalculatorFragment extends Fragment  {
                     String second = textView.getText().toString().replace(firstArg + operation + "", "");
                     secondArg = Double.valueOf(second);
                     switch (operation) {
+
                         case "+":
                             result = firstArg + secondArg;
                             results = firstArg + "+" + secondArg + "=" + result;
                             textView.setText(results);
-                            resultToArray = String.valueOf(result);
-                            list.add(resultToArray);
-                            bundle.putStringArrayList("key", list);
+                           resultToArray = textView.getText().toString();
+                           list.add(resultToArray);
+                           listener.OnCLickChange(list);
                             break;
                         case "-":
                             result = firstArg - secondArg;
                             textView.setText(firstArg + "-" + secondArg + "=" + result);
-                            resultToArray = String.valueOf(result);
-                            list.add(resultToArray);
-                            bundle.putStringArrayList("key", list);
+                           results = textView.getText().toString();
+                            list.add(results);
+                            listener.OnCLickChange(list);
+
                             break;
                         case "/":
                             result = firstArg / secondArg;
                             textView.setText(firstArg + "/" + secondArg + "=" + result);
-                            resultToArray = String.valueOf(result);
-                            list.add(resultToArray);
-                            bundle.putStringArrayList("key", list);
+                          results = textView.getText().toString();
+                          list.add(results);
+                            listener.OnCLickChange(list);
                             break;
                         case "*":
                             result = firstArg + secondArg;
                             textView.setText(firstArg + "*" + secondArg + "=" + result);
-                            resultToArray = String.valueOf(result);
-                            list.add(resultToArray);
-                            bundle.putStringArrayList("key", list);
+                             results = textView.getText().toString();
+                             list.add(results);
+                            listener.OnCLickChange(list);
                             break;
                     }
+
                 }
             }
         });
@@ -218,26 +233,6 @@ public class CalculatorFragment extends Fragment  {
                 }
             }
         });
-        return view;
 
-
-
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        buttonHistory = view.findViewById(R.id.history);
-        buttonHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ListFragment listFragment = new ListFragment();
-                listFragment.setArguments(bundle);
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.container, listFragment);
-                transaction.commit();
-            }
-        });
     }
 }

@@ -20,7 +20,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="340dp">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +40,7 @@
             android:id="@+id/history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="H"
+            android:text=""
             android:textSize="30sp"
             android:background="@android:color/white"
             android:layout_weight="1"

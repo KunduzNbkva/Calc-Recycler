@@ -18,10 +18,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void addText(String text) {
-        data.add(text);
-        notifyDataSetChanged();
-    }
+
 
     @NonNull
     @Override

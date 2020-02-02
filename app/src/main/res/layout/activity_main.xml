@@ -6,15 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-    <fragment
-        android:id="@+id/calculator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.example.homework5.CalculatorFragment"
-        tools:layout="@layout/fragment_calculator"/>
     <FrameLayout
     android:id="@+id/container"
     android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="match_parent"
     />
 </LinearLayout>
